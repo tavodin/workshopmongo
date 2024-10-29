@@ -20,15 +20,24 @@ public class UserService {
     }
 
     public UserDTO findById(String id) {
-        return repository.findById(id)
-                .map(UserDTO::new)
-                .orElseThrow(() -> new ResourceNotFoundException("Objeto não encontrado"));
+        return new UserDTO(getEntityById(id));
     }
 
     public UserDTO insert(UserDTO dto) {
         User entity = new User();
         copyDtoToEntity(dto, entity);
         return new UserDTO(repository.insert(entity));
+    }
+
+    public UserDTO update(String id, UserDTO dto) {
+        User entity = getEntityById(id);
+        copyDtoToEntity(dto, entity);
+        return new UserDTO(repository.save(entity));
+    }
+
+    private User getEntityById(String id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Objeto não encontrado"));
     }
 
     private void copyDtoToEntity(UserDTO dto, User entity) {

@@ -1,6 +1,7 @@
 package com.tavodin.workshopmongo.controllers;
 
 import com.tavodin.workshopmongo.models.dto.UserDTO;
+import com.tavodin.workshopmongo.models.entities.User;
 import com.tavodin.workshopmongo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -33,5 +34,10 @@ public class UserController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable String id, @RequestBody UserDTO dto) {
+        return ResponseEntity.ok(service.update(id, dto));
     }
 }
