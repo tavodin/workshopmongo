@@ -22,6 +22,12 @@ public class PostService {
         return new PostDTO(getEntityById(id));
     }
 
+    public List<PostDTO> findByTitle(String text) {
+        return repository.findByTitleContainingIgnoreCase(text).stream()
+                .map(PostDTO::new)
+                .toList();
+    }
+
     private Post getEntityById(String id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Objeto não encontrado"));
