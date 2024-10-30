@@ -1,5 +1,6 @@
 package com.tavodin.workshopmongo.controllers;
 
+import com.tavodin.workshopmongo.models.dto.PostDTO;
 import com.tavodin.workshopmongo.models.dto.UserDTO;
 import com.tavodin.workshopmongo.models.entities.User;
 import com.tavodin.workshopmongo.services.UserService;
@@ -45,5 +46,10 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable String id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<List<PostDTO>> getUserPosts(@PathVariable String id) {
+        return ResponseEntity.ok(service.getUserPosts(id));
     }
 }

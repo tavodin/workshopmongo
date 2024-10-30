@@ -1,6 +1,8 @@
 package com.tavodin.workshopmongo.services;
 
+import com.tavodin.workshopmongo.models.dto.PostDTO;
 import com.tavodin.workshopmongo.models.dto.UserDTO;
+import com.tavodin.workshopmongo.models.entities.Post;
 import com.tavodin.workshopmongo.models.entities.User;
 import com.tavodin.workshopmongo.repositories.UserRepository;
 import com.tavodin.workshopmongo.services.exceptions.ResourceNotFoundException;
@@ -38,6 +40,11 @@ public class UserService {
     public void delete(String id) {
         getEntityById(id);
         repository.deleteById(id);
+    }
+
+    public List<PostDTO> getUserPosts(String id) {
+        User user = getEntityById(id);
+        return user.getPosts().stream().map(PostDTO::new).toList();
     }
 
     private User getEntityById(String id) {
